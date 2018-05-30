@@ -1,31 +1,19 @@
 import tweepy
 from rest_framework.views import APIView, status
-from rest_framework.viewsets import ViewSet, ModelViewSet
+from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from .utils import load_api
-from .serializers import TweetSerializer, UserProfileSerializer, TokenSerializer
+from .serializers import TweetSerializer, TokenSerializer
 from .permissions import UserProfilePermission
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_jwt.settings import api_settings
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from django.contrib.auth import authenticate, login
-from .models import UserProfile
 
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
-
-class UserProfileViewSet(ModelViewSet):
-    """
-    Handles creating reading and updating of user profiles
-    """
-
-    serializer_class = UserProfileSerializer
-    queryset = UserProfile.objects.all()
-    authentication_classes = (JSONWebTokenAuthentication,)
-    permission_classes = (UserProfilePermission,)
-    http_method_names = ['post', 'put']
 
 
 class LoginViewSet(ViewSet):

@@ -31,7 +31,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         """
         Create and return a new user
         :param validated_data:
-        :return:
+        :return: user
         """
         user = UserProfile(
             email=validated_data['email'],

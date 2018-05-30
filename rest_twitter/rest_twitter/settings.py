@@ -79,25 +79,25 @@ WSGI_APPLICATION = 'rest_twitter.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db', # set in docker-compose.yml
-        'PORT': 5432 # default postgres port
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'HOST': 'db', # set in docker-compose.yml
+#         'PORT': 5432 # default postgres port
+#     }
+# }
 
 BASE_DIR = Path(__file__).parent
 
-# DATABASES = {
-#     'default': config(
-#         'DATABASE_URL',
-#         default='sqlite:///' + BASE_DIR.child('db.sqlite3'),
-#         cast=db_url
-#     )
-# }
+DATABASES = {
+    'default': config(
+        'DATABASE_URL',
+        default='sqlite:///' + BASE_DIR.child('db.sqlite3'),
+        cast=db_url
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -143,3 +143,4 @@ CONSUMER_SECRET = config('CONSUMER_SECRET')
 ACCESS_TOKEN = config('ACCESS_TOKEN')
 ACCESS_SECRET = config('ACCESS_SECRET')
 
+AUTH_USER_MODEL = 'api.UserProfile'

@@ -19,16 +19,18 @@ class UserTweetView(APIView):
             api = load_api()
             try:
                 api.update_status(tweets)
-            except Exception:
+            except Exception as e:
+                print(e)
                 return Response({"message": "You can not update an empty tweet"}, status=status.HTTP_400_BAD_REQUEST)
             return Response({"message": "Your tweets has been updated"}, status=status.HTTP_201_CREATED)
 
-    def get(self):
+    def get(self, request):
         """
         Get the user's tweets
         This view function gets all the users tweets on the timeline
         """
         api = load_api()
+
         my_tweets = api.user_timeline()
         tweet_list = []
         for tweet in my_tweets:

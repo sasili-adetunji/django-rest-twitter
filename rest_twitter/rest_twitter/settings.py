@@ -11,12 +11,10 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-from decouple import config
-from dj_database_url import parse as db_url
-from unipath import Path
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -79,25 +77,16 @@ WSGI_APPLICATION = 'rest_twitter.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'HOST': 'db', # set in docker-compose.yml
-#         'PORT': 5432 # default postgres port
-#     }
-# }
-
-BASE_DIR = Path(__file__).parent
-
 DATABASES = {
-    'default': config(
-        'DATABASE_URL',
-        default='sqlite:///' + BASE_DIR.child('db.sqlite3'),
-        cast=db_url
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'HOST': 'db', # set in docker-compose.yml
+        'PORT': 5432 # default postgres port
+    }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -136,11 +125,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
-# TWITTER DETAILS
-CONSUMER_KEY = config('CONSUMER_KEY')
-CONSUMER_SECRET = config('CONSUMER_SECRET')
-ACCESS_TOKEN = config('ACCESS_TOKEN')
-ACCESS_SECRET = config('ACCESS_SECRET')
 
 AUTH_USER_MODEL = 'api.UserProfile'

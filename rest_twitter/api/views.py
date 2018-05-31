@@ -66,13 +66,19 @@ class UserTweetView(APIView):
         Get the user's tweets
         This view function gets all the users tweets on the timeline
         """
-
-        api = load_api(request)
-        try:
-            my_tweets = api.user_timeline()
-        except tweepy.TweepError as e:
-            return Response({"message": e.args[0][0]['message']}, status=status.HTTP_400_BAD_REQUEST)
-        tweet_list = []
-        for tweet in my_tweets:
-            tweet_list.append(tweet.text)
-        return Response({'message': tweet_list}, status=status.HTTP_200_OK)
+        if request.user.is_authenticated:
+            if not request.user.consumer_key and not request.user.consumer_secret and not request.user.oauth_token and not request.user.oauth_token_secret:
+                return Response({"message": "Kindly supply the twitter authentication keys in the admin dashboard"},
+                                status=status.HTTP_400_BAD_REQUEST)
+            else:
+                api = load_api(request)
+                try:
+                    my_tweets = api.user_timeline()
+                except tweepy.TweepError as e:
+                    return Response({"message": e.args[0][0]['message']}, status=status.HTTP_400_BAD_REQUEST)
+                tweet_list = []
+                for tweet in my_tweets:
+                    tweet_list.append(tweet.text)
+                return Response({'message': tweet_list}, status=status.HTTP_200_OK)
+        else:
+            return Response({"message": "Kindly create an account and log in first"}, status=status.HTTP_400_BAD_REQUEST)

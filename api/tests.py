@@ -2,7 +2,7 @@ from django.test import TestCase
 from .models import UserProfile
 
 
-class SecurityUserModelTest(TestCase):
+class UserprofileModelTest(TestCase):
     """ Tests for the User profile Model """
 
     def test_can_save_a_security_user(self):

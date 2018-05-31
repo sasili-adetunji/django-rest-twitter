@@ -15,6 +15,7 @@ The functionality of this web app depends on the following technologies.
 - Move into local directory `cd django-rest-twitter`
 - Ensure docker is running on your machine
 - Run `docker build .` 
+- Run `docker-compose run web python /code/manage.py makemigrations`
 - Run `docker-compose run web python /code/manage.py migrate`
 - Run `docker-compose run web python /code/manage.py createsuperuser` and follow the prompt to create an account
 - Run `docker-compose up`
@@ -24,6 +25,7 @@ The functionality of this web app depends on the following technologies.
 - Grab the token and pass it as Bearer Token header while you access the endpoints `localhost:8080/api/v1/tweet/`
 - The GET method will retrieve tweets from your timeline
 - The POST method will post tweets to your timeline with the parameter `tweets`
+- Run `docker-compose run web python /code/manage.py test` to run test
 
 
 ### Author

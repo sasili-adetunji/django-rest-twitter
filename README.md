@@ -1,5 +1,14 @@
 ### REST API
 This application posts tweets to your timeline and retrieve tweets from your timeline
+
+### The Approach
+- I created a userprofile model which inherits from the django AbstractBaseUser to store a user's info and its authorization keys
+- I created an endpoints to login a user which will return a token. The token is used to verify a user when requests are made
+- I created endpoints for getting and retriving tweets
+- I handled errors when a user has not supplied his auth keys in the django admin
+- I handled errors when user is not logged in and try to get or post tweets
+- I handled errors when the auth keys are wrong
+- I handled errors when user try to post an empty tweets
 ### Technologies used
 The functionality of this web app depends on the following technologies.
 

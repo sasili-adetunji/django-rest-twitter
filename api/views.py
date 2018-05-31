@@ -52,14 +52,20 @@ class UserTweetView(APIView):
         Create a new tweet
         This view function creates/POSTs a new tweet for the user.
         """
-        tweets = request.data.get('tweets', None)
-        if tweets is not None:
-            api = load_api(request)
-            try:
-                api.update_status(tweets)
-            except tweepy.TweepError as e:
-                return Response({"message": e.args[0][0]['message']}, status=status.HTTP_400_BAD_REQUEST)
-            return Response({"message": "Your tweets has been updated"}, status=status.HTTP_201_CREATED)
+        if request.user.is_authenticated:
+            if not request.user.consumer_key and not request.user.consumer_secret and not request.user.oauth_token and \
+                    not request.user.oauth_token_secret:
+                return Response({"message": "Kindly supply the twitter authentication keys in the admin dashboard"},
+                                status=status.HTTP_400_BAD_REQUEST)
+            else:
+                tweets = request.data.get('tweets', None)
+                if tweets is not None:
+                    api = load_api(request)
+                    try:
+                        api.update_status(tweets)
+                    except tweepy.TweepError as e:
+                        return Response({"message": e.args[0][0]['message']}, status=status.HTTP_400_BAD_REQUEST)
+                    return Response({"message": "Your tweets has been updated"}, status=status.HTTP_201_CREATED)
 
     def get(self, request):
         """
@@ -67,7 +73,8 @@ class UserTweetView(APIView):
         This view function gets all the users tweets on the timeline
         """
         if request.user.is_authenticated:
-            if not request.user.consumer_key and not request.user.consumer_secret and not request.user.oauth_token and not request.user.oauth_token_secret:
+            if not request.user.consumer_key and not request.user.consumer_secret and not request.user.oauth_token and \
+                    not request.user.oauth_token_secret:
                 return Response({"message": "Kindly supply the twitter authentication keys in the admin dashboard"},
                                 status=status.HTTP_400_BAD_REQUEST)
             else:
@@ -81,4 +88,5 @@ class UserTweetView(APIView):
                     tweet_list.append(tweet.text)
                 return Response({'message': tweet_list}, status=status.HTTP_200_OK)
         else:
-            return Response({"message": "Kindly create an account and log in first"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": "Kindly create an account and log in first"},
+                            status=status.HTTP_400_BAD_REQUEST)

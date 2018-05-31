@@ -7,7 +7,7 @@ class SecurityUserModelTest(TestCase):
 
     def test_can_save_a_security_user(self):
         UserProfile.objects.create(
-            email="sectest2@andela.com",
+            email="sectest2@gmail.com",
             password="devpassword2",
             name="NewPerson",
         )
@@ -16,4 +16,4 @@ class SecurityUserModelTest(TestCase):
         )
 
         self.assertEqual(UserProfile.objects.count(), 1)
-        self.assertIn("sectest2@andela.com", user_profile.email)
+        self.assertIn("sectest2@gmail.com", user_profile.email)
